@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+          <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+        <!-- Font Awesome CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <form>
+            <div class="row">
+                <div class="col-md-8">
+                  <div class="container">
+                    <form action="/action_page.php">
+              
+                      <!-- Billing Address Section -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h3>Verify your Details</h3>
+                          <div class="mb-3">
+                            <label for="fname" class="form-label"><i class="fa fa-user"></i> Full Name</label>
+                            <input type="text" id="fname" name="firstname" class="form-control" placeholder="John M. Doe">
+                          </div>
+                          <!-- ... other input fields ... -->
+                        </div>
+              
+                        <!-- Payment Section -->
+                        <div class="col-md-6">
+                          <h3>Payment</h3>
+                          <div class="mb-3">
+                            <label for="fname" class="form-label">Accepted Payment Method</label>
+                            <div class="icon-container">
+                              <i class="fa fa-cc-visa" style="color:navy;"></i>
+                              <!-- ... other credit card icons ... -->
+                            </div>
+                          </div>
+                        
+                        </div>
+                      </div>
+              
+                      <!-- Additional form elements -->
+                      <div class="mb-3">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" checked="checked" id="sameadr" name="sameadr">
+                          <label class="form-check-label" for="sameadr">Shipping address same as billing</label>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Continue to checkout</button>
+                    </form>
+                  </div>
+                </div>
+              
+                <!-- Shopping Cart Summary -->
+                <div class="col-md-4">
+                  <div class="container">
+                    <h4>Cart</h4>
+                            <div id="item-container">
+                              <div class="item-row">
+                                <div class="row">
+                                  <div class="col-3">Item 1</div>
+                                  <div class="col-3">
+                                    <input type="number" class="form-control quantity" value="1" min="0">
+                                  </div>
+                                  <div class="col-3">
+                                    <button class="btn btn-danger remove">Remove</button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="item-row">
+                                <div class="row">
+                                  <div class="col-3">Item 2</div>
+                                  <div class="col-3">
+                                    <input type="number" class="form-control quantity" value="1" min="0">
+                                  </div>
+                                  <div class="col-3">
+                                    <button class="btn btn-danger remove">Remove</button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="item-row">
+                                <div class="row">
+                                  <div class="col-3">Item 3</div>
+                                  <div class="col-3">
+                                    <input type="number" class="form-control quantity" value="1" min="0">
+                                  </div>
+                                  <div class="col-3">
+                                    <button class="btn btn-danger remove">Remove</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-6">Total:</div>
+                              <div class="col-6" id="total">0</div>
+                            </div>
+                            <br>
+                            <button class="btn btn-primary" id="payment">Payment</button>
+                          </div>
+                  </div>
+              </div>
+              
+        </form>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                       
+        <script>
+            // Function to update the total
+            function updateTotal() {
+              let total = 0;
+              $('.item-row').each(function() {
+                const quantity = parseInt($(this).find('.quantity').val());
+                const price = 10; // Replace with actual price per item
+                total += quantity * price;
+              });
+              $('#total').text(total.toFixed(2));
+            }
+        
+            // Function to handle remove button click
+            $('.remove').click(function() {
+              $(this).closest('.item-row').remove();
+              updateTotal();
+            });
+        
+            // Function to handle quantity change
+            $('.quantity').change(function() {
+              const quantity = parseInt($(this).val());
+              if (quantity === 0) {
+                $(this).closest('.item-row').remove();
+              }
+              updateTotal();
+            });
+        
+            // Function to handle payment button click
+            $('#payment').click(function() {
+              // Add your payment logic here
+              alert('Payment clicked!');
+            });
+          </script>
+    </body>
+</html>
