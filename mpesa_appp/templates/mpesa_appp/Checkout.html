@@ -12,11 +12,77 @@
         <!-- Font Awesome CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <link rel="stylesheet" href="">
+        <style>
+          .arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .arrow {
+            width: 20px; 
+            height: 20px;
+          }
+          .item-totals {
+            font-weight: bold;
+          }
+        </style>
     </head>
     <body>
+      <div class="container">
+        <h4>Cart</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="item-container">
+            <tr class="item-row mb-2">
+              <td>Item 1</td>
+              <td>
+                {% load static %}
+                <div class="row">
+                  <div class="col-sm-6 mt-1">
+                    <span type="number" name="quantity" value="1" id="quantity">1</span>
+                  </div>
+                  <div class="col-sm-6 d-flex align-items-center">
+                    <div class="arrow-container">
+                      <img src="{% static 'assets/img/arrow-up.png' %}" alt="increase" name="increase" id="increase" class="arrow">
+                      <img src="{% static 'assets/img/arrow-down.png' %}" alt="decrease" name="decrease" id="decrease" class="arrow">
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="col-sm-6 mt-2" name="price" id="price">63</span>
+              </td>
+              <td>
+                <span class="item-totals" id="item_totals">63</span>
+              </td>
+              <td>
+                <button class="btn btn-danger remove" id="remove">Remove</button>
+              </td>
+            </tr>
+          </tbody>
+          
+        </table>
+        <hr>
+        <div class="row">
+          <div class="col-6">Total:</div>
+          <div class="col-6" id="total">0</div>
+        </div>
+        <br>
+        <button class="btn btn-primary" id="payment">Payment</button>
+      </div>
+      
         <form>
-            <div class="row">
-                <div class="col-md-8">
+            <div class="row" style="margin-left:1%;" >
+                <div class="col-sm-6">
                   <div class="container">
                     <form action="">
               
@@ -74,92 +140,9 @@
                   </div>
                 </div>
               
-                <!-- Shopping Cart Summary -->
-                <div class="col-md-4">
-                  <div class="container">
-                    <h4>Cart</h4>
-                            <div id="item-container">
-                              <div class="item-row">
-                                <div class="row">
-                                  <div class="col-3">Item 1</div>
-                                  <div class="col-3">
-                                    <input type="number" class="form-control quantity" value="1" min="0">
-                                  </div>
-                                  <div class="col-3">
-                                    <button class="btn btn-danger remove">Remove</button>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="item-row">
-                                <div class="row">
-                                  <div class="col-3">Item 2</div>
-                                  <div class="col-3">
-                                    <input type="number" class="form-control quantity" value="1" min="0">
-                                  </div>
-                                  <div class="col-3">
-                                    <button class="btn btn-danger remove">Remove</button>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="item-row">
-                                <div class="row">
-                                  <div class="col-3">Item 3</div>
-                                  <div class="col-3">
-                                    <input type="number" class="form-control quantity" value="1" min="0">
-                                  </div>
-                                  <div class="col-3">
-                                    <button class="btn btn-danger remove">Remove</button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                              <div class="col-6">Total:</div>
-                              <div class="col-6" id="total">0</div>
-                            </div>
-                            <br>
-                            <button class="btn btn-primary" id="payment">Payment</button>
-                          </div>
-                  </div>
-              </div>
-              
         </form>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-                       
-        <script>
-            // Function to update the total
-            function updateTotal() {
-              let total = 0;
-              $('.item-row').each(function() {
-                const quantity = parseInt($(this).find('.quantity').val());
-                const price = 10; // Replace with actual price per item
-                total += quantity * price;
-              });
-              $('#total').text(total.toFixed(2));
-            }
-        
-            // Function to handle remove button click
-            $('.remove').click(function() {
-              $(this).closest('.item-row').remove();
-              updateTotal();
-            });
-        
-            // Function to handle quantity change
-            $('.quantity').change(function() {
-              const quantity = parseInt($(this).val());
-              if (quantity === 0) {
-                $(this).closest('.item-row').remove();
-              }
-              updateTotal();
-            });
-        
-            // Function to handle payment button click
-            $('#payment').click(function() {
-              // Add your payment logic here
-              alert('Payment clicked!');
-            });
-          </script>
+
     </body>
 </html>

@@ -60,15 +60,15 @@ def register(request):
         email = request.POST.get('email')
         profile_image = request.FILES.get('profile_image')
         
-        user = User.objects.create_user(username=username, password=password)
+        user = Registration.objects.create_user(username=username, password=password)
     
         registration = Registration(
+            username = username,
             first_name=first_name,
             last_name=last_name,
             middle_name=middle_name,
             phone_number=phone_number,
             password=password,
-            dob=dob,
             email=email,
             profile_image=profile_image,
         )
