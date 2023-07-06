@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 import requests
 # Create your views here.
 from django.http import HttpResponse
@@ -9,7 +10,7 @@ from .models import Registration
 def index(request):
     return HttpResponse('Welcome index')
 
-def login(request):
+def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -18,7 +19,7 @@ def login(request):
 
         if user is not None:
             # Authentication successful, login the user
-            #login(request, user)
+            login(request, user)
             return redirect('checkout')  # Replace 'checkout' with your desired redirect URL
 
         else:
@@ -29,6 +30,11 @@ def login(request):
     else:
         # GET request, render the login page
         return render(request, 'mpesa_appp/login.html')
+    
+
+def logout_user(request):
+    logout(request)
+    return redirect('login') 
 
 @login_required
 def checkout(request):
@@ -45,16 +51,16 @@ def checkout(request):
 def register(request):
     if request.method == 'POST':
         # Extract form data
+        username = request.POST.get('username')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         middle_name = request.POST.get('middle_name')
         phone_number = request.POST.get('phone_number')
         password = request.POST.get('password')
-        dob = request.POST.get('dob')
         email = request.POST.get('email')
         profile_image = request.FILES.get('profile_image')
         
-        user = User.objects.create_user(username=first_name, password=password)
+        user = User.objects.create_user(username=username, password=password)
     
         registration = Registration(
             first_name=first_name,

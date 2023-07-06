@@ -23,7 +23,9 @@
       <div class="card-body">
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            
+            {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+            {% endif %}
           <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" class="form-control" id="username" name="username"placeholder="Enter your username">
