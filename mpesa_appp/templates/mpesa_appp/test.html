@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Web Page</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.increase').click(function() {
+        var row = $(this).closest('.item-row');
+        var quantityElement = row.find('.quantity');
+        var priceElement = row.find('.price');
+        var itemTotalsElement = row.find('.item-totals');
+        
+        var quantity = parseInt(quantityElement.val());
+        var price = parseInt(priceElement.text());
+        
+        quantity++;
+        price = price * quantity;
+        
+        quantityElement.val(quantity);
+        priceElement.text(price);
+        itemTotalsElement.text(price);
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h4>Cart</h4>
+    <table>
+      <tbody id="item-container">
+        <tr class="item-row mb-2">
+          <td>Item 1</td>
+          <td>
+            <input type="number" class="form-control quantity" value="1" min="0">
+          </td>
+          <td>
+            <span class="price">63</span>
+          </td>
+          <td>
+            <span class="item-totals">63</span>
+          </td>
+          <td>
+            <button class="btn btn-danger remove">Remove</button>
+          </td>
+          <td>
+            {% load static %}
+            <img src="{% static 'assets/img/arrow-up.png' %}" alt="increase" name="increase" class="arrow increase">
+          </td>
+          <td>
+            <img src="{% static 'assets/img/arrow-down.png' %}" alt="decrease" name="decrease" class="arrow decrease">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr>
+    <div class="row">
+      <div class="col-6">Total:</div>
+      <div class="col-6" id="total">0</div>
+    </div>
+    <br>
+    <button class="btn btn-primary" id="payment">Payment</button>
+  </div>
+</body>
+</html>

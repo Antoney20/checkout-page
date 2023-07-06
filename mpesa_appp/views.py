@@ -8,7 +8,7 @@ import requests
 from django.http import HttpResponse
 from .models import Registration
 def index(request):
-    return HttpResponse('Welcome index')
+    return render(request, 'mpesa_appp/test.html')
 
 def login_user(request):
     if request.method == 'POST':
