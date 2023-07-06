@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 import requests
 # Create your views here.
 from django.http import HttpResponse
@@ -8,6 +9,26 @@ from .models import Registration
 def index(request):
     return HttpResponse('Welcome index')
 
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # Authentication successful, login the user
+            #login(request, user)
+            return redirect('checkout')  # Replace 'checkout' with your desired redirect URL
+
+        else:
+            # Authentication failed, show login page with error message
+            error_message = 'Invalid username or password'
+            return render(request, 'mpesa_appp/login.html', {'error_message': error_message})
+
+    else:
+        # GET request, render the login page
+        return render(request, 'mpesa_appp/login.html')
 
 @login_required
 def checkout(request):
@@ -15,10 +36,8 @@ def checkout(request):
     user = request.user
     # Access the user's fields
     first_name = user.first_name
-    middle_name = user.middle_name
     last_name = user.last_name
     email = user.email
-    dob = user.dob
     phone_number = user.phone_number
     profile_image = user.profile_image
     return render(request, 'mpesa_appp/Checkout.html')

@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'commerce',
+        'NAME': 'test',
         'USER': 'root',
         'PASSWORD': 'Anto@2001',
         'HOST': 'localhost',  # Usually 'localhost' for local development
@@ -105,6 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTH_USER_MODEL = 'mpesa_appp.Registration'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

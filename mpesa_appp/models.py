@@ -1,18 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# Create your models here.\
-
-
-
-class Registration(models.Model):
     
+
+
+
+class Registration(AbstractUser):
+    username = models.CharField(max_length=255,unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     middle_name = models.CharField(max_length=255, blank=True)
     phone_number = models.CharField(max_length=15)
     password = models.CharField(max_length=255)
-    dob = models.DateField()
     email = models.EmailField()
     profile_image = models.ImageField(upload_to='profile_images/')
 
