@@ -48,7 +48,7 @@
                 {% load static %}
                 <div class="row">
                   <div class="col-sm-6 mt-1">
-                    <span type="number" name="quantity" value="1" id="quantity">1</span>
+                    <span type="number" name="quantity" id="quantity">1</span>
                   </div>
                   <div class="col-sm-6 d-flex align-items-center">
                     <div class="arrow-container">
@@ -141,7 +141,10 @@
                 </div>
               
         </form>
-
+        {% load static %}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src=" {% static 'assets/js/idex.js' %} "></script>
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     </body>
