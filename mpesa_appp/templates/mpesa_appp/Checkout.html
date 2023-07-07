@@ -42,13 +42,16 @@
             </tr>
           </thead>
           <tbody id="item-container">
+            {% for item in items %}
             <tr class="item-row mb-2">
-              <td>Item 1</td>
               <td>
-                {% load static %}
+                <img src="{{ item.item_image.url }}" alt="{{ item.name }}">
+                {{ item.name }}
+              </td>
+              <td>
                 <div class="row">
                   <div class="col-sm-6 mt-1">
-                    <span type="number" name="quantity" id="quantity">1</span>
+                    <span type="number" name="quantity" id="quantity">{{ item.quantity }}</span>
                   </div>
                   <div class="col-sm-6 d-flex align-items-center">
                     <div class="arrow-container">
@@ -59,44 +62,19 @@
                 </div>
               </td>
               <td>
-                <span class="col-sm-6 mt-2" name="price" id="price">63</span>
+                <span class="col-sm-6 mt-2" name="price" id="price">{{ item.price }}</span>
               </td>
               <td>
-                <span class="item-totals" id="item_totals">63</span>
-              </td>
-              <td>
-                <button class="btn btn-danger remove" id="remove">Remove</button>
-              </td>
-            </tr>
-            <tr class="item-row mb-2">
-              <td>Item 2</td>
-              <td>
-                {% load static %}
-                <div class="row">
-                  <div class="col-sm-6 mt-1">
-                    <span type="number" name="quantity" id="quantity">3</span>
-                  </div>
-                  <div class="col-sm-6 d-flex align-items-center">
-                    <div class="arrow-container">
-                      <img src="{% static 'assets/img/arrow-up.png' %}" alt="increase" name="increase" id="increase" class="arrow">
-                      <img src="{% static 'assets/img/arrow-down.png' %}" alt="decrease" name="decrease" id="decrease" class="arrow">
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <span class="col-sm-6 mt-2" name="price" id="price">100</span>
-              </td>
-              <td>
-                <span class="item-totals" id="item_totals">300</span>
+                <span class="item-totals" id="item_totals">{{ item.price }}</span>
               </td>
               <td>
                 <button class="btn btn-danger remove" id="remove">Remove</button>
               </td>
             </tr>
+            {% endfor %}
           </tbody>
-          
         </table>
+        
         <hr>
         <div class="row">
           <div class="col-6">Total:</div>

@@ -6,7 +6,7 @@ from django.contrib.auth import logout
 import requests
 # Create your views here.
 from django.http import HttpResponse
-from .models import Registration
+from .models import Registration, Item
 def index(request):
     return render(request, 'mpesa_appp/test.html')
 
@@ -38,7 +38,6 @@ def logout_user(request):
 
 @login_required
 def checkout(request):
-    # Fetch the user's data from the database
     user = request.user
     # Access the user's fields
     first_name = user.first_name
@@ -46,6 +45,22 @@ def checkout(request):
     email = user.email
     phone_number = user.phone_number
     profile_image = user.profile_image
+    items = Item.objects.filter(username=user.id)
+    print("*************")
+    for item in items:
+        print("Name:", item.name)
+        print("Quantity:", item.quantity)
+        print("Price:", item.price)
+        print("*************")
+    #pass items to checkout
+    context = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'email': email,
+        'phone_number': phone_number,
+        'profile_image': profile_image,
+        'items': items 
+    }
     return render(request, 'mpesa_appp/Checkout.html')
 
 def register(request):
