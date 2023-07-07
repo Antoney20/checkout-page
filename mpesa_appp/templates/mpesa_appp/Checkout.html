@@ -13,6 +13,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <link rel="stylesheet" href="">
         <style>
+            .item-image {
+                width: 50px; 
+                height: 50px; 
+                object-fit: cover; 
+            }
+            
           .arrow-container {
             display: flex;
             flex-direction: column;
@@ -47,7 +53,7 @@
               {% for item in items %}
               <tr class="item-row mb-2">
                   <td>
-                      <img src="{{ MEDIA_URL }}{{ item.item_image.url }}" alt="{{ item.name }}">
+                      <img src="{{ MEDIA_URL }}{{ item.item_image.url }}" alt="{{ item.name }}"class="item-image">
                       {{ item.name }}
                   </td>
                   <td>
