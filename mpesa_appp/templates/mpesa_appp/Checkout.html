@@ -68,13 +68,39 @@
                 <button class="btn btn-danger remove" id="remove">Remove</button>
               </td>
             </tr>
+            <tr class="item-row mb-2">
+              <td>Item 2</td>
+              <td>
+                {% load static %}
+                <div class="row">
+                  <div class="col-sm-6 mt-1">
+                    <span type="number" name="quantity" id="quantity">3</span>
+                  </div>
+                  <div class="col-sm-6 d-flex align-items-center">
+                    <div class="arrow-container">
+                      <img src="{% static 'assets/img/arrow-up.png' %}" alt="increase" name="increase" id="increase" class="arrow">
+                      <img src="{% static 'assets/img/arrow-down.png' %}" alt="decrease" name="decrease" id="decrease" class="arrow">
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="col-sm-6 mt-2" name="price" id="price">100</span>
+              </td>
+              <td>
+                <span class="item-totals" id="item_totals">300</span>
+              </td>
+              <td>
+                <button class="btn btn-danger remove" id="remove">Remove</button>
+              </td>
+            </tr>
           </tbody>
           
         </table>
         <hr>
         <div class="row">
           <div class="col-6">Total:</div>
-          <div class="col-6" id="total">0</div>
+          <div class="col-6" id="total">363</div>
         </div>
         <br>
         <button class="btn btn-primary" id="payment">Payment</button>
@@ -141,8 +167,9 @@
                 </div>
               
         </form>
-        {% load static %}
+        
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        {% load static %}
         <script src=" {% static 'assets/js/idex.js' %} "></script>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
