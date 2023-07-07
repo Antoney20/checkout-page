@@ -47,7 +47,7 @@
               {% for item in items %}
               <tr class="item-row mb-2">
                   <td>
-                      <img src="{{ item.item_image.url }}" alt="{{ item.name }}">
+                      <img src="{{ MEDIA_URL }}{{ item.item_image.url }}" alt="{{ item.name }}">
                       {{ item.name }}
                   </td>
                   <td>
