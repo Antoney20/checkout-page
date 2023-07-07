@@ -45,13 +45,14 @@ def checkout(request):
     email = user.email
     phone_number = user.phone_number
     profile_image = user.profile_image
-    items = Item.objects.filter(username=user.id)
+    items = Item.objects.filter(user=user)
     print("*************")
     for item in items:
         print("Name:", item.name)
+        print("username", item.user)
         print("Quantity:", item.quantity)
         print("Price:", item.price)
-        print("*************")
+        print("**************")
     #pass items to checkout
     context = {
         'first_name': first_name,
@@ -61,7 +62,7 @@ def checkout(request):
         'profile_image': profile_image,
         'items': items 
     }
-    return render(request, 'mpesa_appp/Checkout.html')
+    return render(request, 'mpesa_appp/Checkout.html', context)
 
 def register(request):
     if request.method == 'POST':

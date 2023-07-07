@@ -18,13 +18,13 @@ class Registration(AbstractUser):
     
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
 class Item(models.Model):
-    username= models.ForeignKey(Registration, on_delete=models.CASCADE)
+    user = models.ForeignKey(Registration, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    item_image = models.ImageField( upload_to= 'item/images')
-   
+    item_image = models.ImageField(upload_to='item/images')
 
     def __str__(self):
         return self.name
