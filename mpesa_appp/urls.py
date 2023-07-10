@@ -11,7 +11,6 @@ urlpatterns = [
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
     
-    
-    
+   path('access/token', views.getAccessToken, name='get_mpesa_access_token'),
     
 ]

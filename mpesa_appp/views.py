@@ -3,7 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+#mpesa
+import json
 import requests
+from django.http import HttpResponse, JsonResponse
+from requests.auth import HTTPBasicAuth
 # Create your views here.
 from django.http import HttpResponse
 from .models import Registration, Item
@@ -96,3 +100,16 @@ def register(request):
    
     else:
         return render(request, 'mpesa_appp/register.html')
+    
+    
+    
+def getAccessToken(request):
+    consumer_key = 'jZZ1Izq3fr2ZB4jg0Kv6GAXy41G7d4ZG'
+    consumer_secret = 'lghIvsY5Fkz7zXl3'
+    api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
+
+    r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
+    mpesa_access_token = json.loads(r.text)
+    validated_mpesa_access_token = mpesa_access_token['access_token']
+
+    return HttpResponse(validated_mpesa_access_token)
