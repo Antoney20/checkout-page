@@ -8,9 +8,15 @@ import json
 import requests
 from django.http import HttpResponse, JsonResponse
 from requests.auth import HTTPBasicAuth
+from .backend import LipanaMpesa, MpesaAccessToken
+
 # Create your views here.
 from django.http import HttpResponse
 from .models import Registration, Item
+
+
+callback_url = "https://cd64-196-98-170-98.ngrok-free.app/app/v1/c2b/callback"
+
 def index(request):
     return render(request, 'mpesa_appp/test.html')
 
@@ -113,3 +119,25 @@ def getAccessToken(request):
     validated_mpesa_access_token = mpesa_access_token['access_token']
 
     return HttpResponse(validated_mpesa_access_token)
+
+
+# Lipa na mpesa.  c2b
+def lipa_na_mpesa_online(request):
+    access_token = MpesaAccessToken.validated_mpesa_access_token
+    api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+    headers = {'Authorization': f'Bearer {access_token}', 'Content-Type': 'application/json'}
+    stk_request = {
+        "BusinessShortCode": LipanaMpesa.Business_short_code,# this is the business shortcode
+        "Password": LipanaMpesa.decode_password,
+        "Timestamp": LipanaMpesa.lipa_time,
+        "TransactionType": "CustomerPayBillOnline",
+        "Amount": 1,
+        "PartyA": 254748181420,  
+        "PartyB": LipanaMpesa.Business_short_code,
+        "PhoneNumber": 254748181420,  # replace with your phone number to get stk push
+        "CallBackURL": callback_url,
+        "AccountReference": "Antony",
+        "TransactionDesc": "Testing stk push"
+    }
+    response = requests.post(api_url, json=stk_request, headers=headers)
+    return HttpResponse(response.text)
