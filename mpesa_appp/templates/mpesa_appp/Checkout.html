@@ -95,7 +95,7 @@
         <hr>
         <div class="row">
           <div class="col-6">Total:</div>
-          <div class="col-6" id="total">363</div>
+          <div class="col-6" name="Total" id="total">363</div>
         </div>
         <br>
       </div>
@@ -192,6 +192,29 @@
         </form>
         {% endif %}
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+          var total = 0;
+          $('.item-totals').each(function() {
+            var itemTotal = parseFloat($(this).text());
+            total += itemTotal;
+          });
+          $('#total').text(total.toFixed(2));
+          function calculateTotal() {
+            var total = 0;
+            $('.item-totals').each(function() {
+              var itemTotal = parseFloat($(this).text());
+              total += itemTotal;
+            });
+            $('#total').text(total.toFixed(2));
+          }
+        
+          $('.remove').click(function() {
+            var itemId = $(this).data('item');
+            $(this).closest('.item-row').remove();
+            calculateTotal();
+          });
+
+        </script>
         {% load static %}
         <script src=" {% static 'assets/js/idex.js' %} "></script>
         
