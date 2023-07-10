@@ -15,6 +15,7 @@
         <style>
           .profile_image{
             max-width:100px;
+            backgroud-color:black;
             max-height:100px;
             border-radius:30%;
           }
@@ -40,6 +41,7 @@
         </style>
     </head>
     <body>
+      {% if user.is_authenticated %}
       <div class="container">
         <h4>Cart</h4>
  
@@ -113,14 +115,13 @@
                               <tr>
                                 <th>Profile Image</th>
                                 <td>
-                                  {% if user.is_authenticated %}
+                                  
                                   {% if request.user.profile_image %}
                                   <img src="{{ request.user.profile_image.url }}" alt="Profile Image" class="profile_image">
                                 {% else %}
                                   <img src="{% static 'assets/img/profile.png' %}" alt="Profile Image" class="profile_image">
                                 {% endif %}
                                 
-                                {% endif %}
                                 </td>
                               </tr>
                               <tr>
@@ -189,7 +190,7 @@
                 </div>
               
         </form>
-        
+        {% endif %}
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         {% load static %}
         <script src=" {% static 'assets/js/idex.js' %} "></script>
