@@ -29,6 +29,17 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
+#checkout model
+class Checkout(models.Model):
+    username = models.ForeignKey(Registration, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    phone_number = models.CharField(max_length=15)
+    order_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Checkout by {self.username} - Amount: {self.amount}"
 
 ####### mpesa payments.
 class BaseModel(models.Model):
