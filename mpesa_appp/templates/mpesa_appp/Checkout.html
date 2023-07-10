@@ -13,6 +13,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <link rel="stylesheet" href="">
         <style>
+          .profile_image{
+            max-width:100px;
+            max-height:100px;
+            border-radius:30%;
+          }
             .item-image {
                 width: 50px; 
                 height: 50px; 
@@ -91,7 +96,6 @@
           <div class="col-6" id="total">363</div>
         </div>
         <br>
-        <button class="btn btn-primary" id="payment">Payment</button>
       </div>
       
         <form>
@@ -103,27 +107,53 @@
                       <!-- Billing Address Section -->
                       <div class="row">
                         <div class="col-md-6">
-                          <h3>Verify your Details</h3>
-                          <div class="mb-3">
-                            <h2 for="fname" class="form-label"><i class="fa fa-user"></i>  Name: {{ user.username }}</h2>
-                    
-                          </div>
-                          <div class="mb-3">
-                            <label for="last_name" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ request.user.last_name }}" {% if not request.user.is_authenticated %}readonly{% endif %}>
-                          </div>
-                          <div class="mb-3">
-                            <label for="first_name" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ request.user.first_name }}" {% if not request.user.is_authenticated %}readonly{% endif %}>
-                          </div>
-                          <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ request.user.email }}" {% if not request.user.is_authenticated %}readonly{% endif %}>
-                          </div>
-                          <div class="mb-3">
-                            <label for="phone_number" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="phone_number" name="phone_number" value="{{ request.user.phone_number }}" {% if not request.user.is_authenticated %}readonly{% endif %}>
-                          </div>
+                          <h3>personal Details</h3>
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <th>Profile Image</th>
+                                <td>
+                                  {% if user.is_authenticated %}
+                                  {% if request.user.profile_image %}
+                                  <img src="{{ request.user.profile_image.url }}" alt="Profile Image" class="profile_image">
+                                {% else %}
+                                  <img src="{% static 'assets/img/profile.png' %}" alt="Profile Image" class="profile_image">
+                                {% endif %}
+                                
+                                {% endif %}
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Name</th>
+                                <td>{{ user.username }}</td>
+                              </tr>
+                              <tr>
+                                <th>Last Name</th>
+                                <td>
+                                  <input type="text" class="form-control" id="last_name" name="last_name" value="{{ request.user.last_name }}" {% if not request.user.is_authenticated %}readonly{% endif %}>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>First Name</th>
+                                <td>
+                                  <input type="text" class="form-control" id="first_name" name="first_name" value="{{ request.user.first_name }}" {% if not request.user.is_authenticated %}readonly{% endif %}>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Email</th>
+                                <td>
+                                  <input type="email" class="form-control" id="email" name="email" value="{{ request.user.email }}" {% if not request.user.is_authenticated %}readonly{% endif %}>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Phone Number</th>
+                                <td>
+                                  <input type="tel" class="form-control" id="phone_number" name="phone_number" value="{{ request.user.phone_number }}" {% if not request.user.is_authenticated %}readonly{% endif %}>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
                    
                         </div>
               
@@ -137,6 +167,10 @@
                               <i class="fa fa-cc-visa" style="color:navy;"></i>
                               <!-- ... other credit card icons ... -->
                             </div>
+                            
+                             
+                             
+                          
                           </div>
                         
                         </div>

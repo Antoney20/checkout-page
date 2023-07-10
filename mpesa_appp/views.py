@@ -62,6 +62,7 @@ def checkout(request):
         'profile_image': profile_image,
         'items': items 
     }
+    print(profile_image)
     return render(request, 'mpesa_appp/Checkout.html', context)
 
 def register(request):

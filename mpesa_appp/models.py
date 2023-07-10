@@ -13,7 +13,7 @@ class Registration(AbstractUser):
     phone_number = models.CharField(max_length=15)
     password = models.CharField(max_length=255)
     email = models.EmailField()
-    profile_image = models.ImageField(upload_to='profile_images/')
+    profile_image = models.ImageField(upload_to='profiles/')
 
     
     def __str__(self):
