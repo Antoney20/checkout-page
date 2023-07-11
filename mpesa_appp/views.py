@@ -12,7 +12,7 @@ from .backend import LipanaMpesa, MpesaAccessToken
 
 # Create your views here.
 from django.http import HttpResponse
-from .models import Registration, Item
+from .models import Registration, Item,Checkout
 
 
 callback_url = "https://cd64-196-98-170-98.ngrok-free.app/app/v1/c2b/callback"
@@ -56,13 +56,14 @@ def checkout(request):
     phone_number = user.phone_number
     profile_image = user.profile_image
     items = Item.objects.filter(user=user)
-    print("*************")
+    
+    total = 0
     for item in items:
-        print("Name:", item.name)
-        print("username", item.user)
-        print("Quantity:", item.quantity)
-        print("Price:", item.price)
-        print("**************")
+        print(item.price)
+        print(item.quantity)
+        total += item.price * item.quantity
+        print("**")
+        print(total)
     #pass items to checkout
     context = {
         'first_name': first_name,
@@ -70,9 +71,9 @@ def checkout(request):
         'email': email,
         'phone_number': phone_number,
         'profile_image': profile_image,
-        'items': items 
+        'items': items,
+        'totals':total  
     }
-    print(profile_image)
     return render(request, 'mpesa_appp/Checkout.html', context)
 
 def register(request):
@@ -107,6 +108,17 @@ def register(request):
     else:
         return render(request, 'mpesa_appp/register.html')
     
+
+def payment(request):
+    if request.method == 'POST':
+        username=  request.user
+        first_name = username.first_name
+        last_name = username.last_name
+        email = username.email
+        amount = request.POST.get('Total')
+        phone_number= request.POST.get('phone_number')
+        return HttpResponse(amount)
+  
     
     
 def getAccessToken(request):
@@ -132,9 +144,9 @@ def lipa_na_mpesa_online(request):
         "Timestamp": LipanaMpesa.lipa_time,
         "TransactionType": "CustomerPayBillOnline",
         "Amount": 1,
-        "PartyA": 254748181420,  
+        "PartyA": Checkout.phone_number,  
         "PartyB": LipanaMpesa.Business_short_code,
-        "PhoneNumber": 254748181420,  # replace with your phone number to get stk push
+        "PhoneNumber": Checkout.phone_number,  # replace with your phone number to get stk push
         "CallBackURL": callback_url,
         "AccountReference": "Antony",
         "TransactionDesc": "Testing stk push"

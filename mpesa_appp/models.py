@@ -23,7 +23,7 @@ class Item(models.Model):
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     item_image = models.ImageField(upload_to='item/images')
-
+ 
     def __str__(self):
         return self.name
 
@@ -39,7 +39,7 @@ class Checkout(models.Model):
     def __str__(self):
         return f"Checkout by {self.username} - Amount: {self.amount}"
 
-####### mpesa payments.
+# mpesa payments.
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

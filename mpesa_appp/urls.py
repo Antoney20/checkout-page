@@ -10,6 +10,7 @@ urlpatterns = [
     path('register' , views.register, name="register"),
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
+    path('payment/', views.payment, name='payment'),
     
     path('access/token', views.getAccessToken, name='get_mpesa_access_token'),
     path('online/lipa', views.lipa_na_mpesa_online, name='lipa_na_mpesa_online'),
