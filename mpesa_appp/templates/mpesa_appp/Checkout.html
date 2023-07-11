@@ -93,7 +93,7 @@
         <hr>
         <div class="row">
           <div class="col-6">Total:</div>
-          <div class="col-6" name="Total" id="total">{{total}}</div>
+          <div class="col-6" name="Total" id="toovvtal">{{total}}</div>
         </div>
         <br>
       </div>
@@ -120,13 +120,13 @@
                 <tr>
                   <th>Last Name</th>
                   <td>
-                    {{ request.user.last_name }} {% if not request.user.is_authenticated %}readonly{% endif %}
+                    {{ user.last_name }} {% if not request.user.is_authenticated %}readonly{% endif %}
                   </td>
                 </tr>
                 <tr>
                   <th>First Name</th>
                   <td>
-                   {{ request.user.first_name }} {% if not request.user.is_authenticated %}readonly{% endif %}
+                   {{user.first_name }} {% if not request.user.is_authenticated %}readonly{% endif %}
                   </td>
                 </tr>
                 <tr>

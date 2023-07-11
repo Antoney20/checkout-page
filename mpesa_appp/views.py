@@ -58,12 +58,16 @@ def checkout(request):
     items = Item.objects.filter(user=user)
     
     total = 0
+
     for item in items:
         print(item.price)
         print(item.quantity)
         total += item.price * item.quantity
         print("**")
         print(total)
+        total_cart = total
+        
+
     #pass items to checkout
     context = {
         'first_name': first_name,
@@ -72,8 +76,9 @@ def checkout(request):
         'phone_number': phone_number,
         'profile_image': profile_image,
         'items': items,
-        'totals':total  
+        'totals':total_cart  
     }
+    print(context)
     return render(request, 'mpesa_appp/Checkout.html', context)
 
 def register(request):
@@ -115,9 +120,9 @@ def payment(request):
         first_name = username.first_name
         last_name = username.last_name
         email = username.email
-        amount = request.POST.get('Total')
+        amount = request.POST.get('total')
         phone_number= request.POST.get('phone_number')
-        return HttpResponse(amount)
+        return HttpResponse(phone_number)
   
     
     
