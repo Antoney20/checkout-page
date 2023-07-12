@@ -32,12 +32,13 @@ class Checkout(models.Model):
     username = models.ForeignKey(Registration, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    email = models.EmailField()
     phone_number = models.CharField(max_length=15)
+    amount = models.DecimalField(max_digits=8, decimal_places=2,editable=False)
     order_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Checkout by {self.username} - Amount: {self.amount}"
+        return f"Checkout by {self.username} - Amount: {self.totals}"
 
 # mpesa payments.
 class BaseModel(models.Model):

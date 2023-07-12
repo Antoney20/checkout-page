@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from decimal import Decimal
 #mpesa
 import json
 import requests
@@ -63,22 +64,20 @@ def checkout(request):
         print(item.price)
         print(item.quantity)
         total += item.price * item.quantity
-        print("**")
-        print(total)
         total_cart = total
         
 
     #pass items to checkout
     context = {
+        
         'first_name': first_name,
         'last_name': last_name,
         'email': email,
         'phone_number': phone_number,
         'profile_image': profile_image,
         'items': items,
-        'totals':total_cart  
+        'amount':total_cart  
     }
-    print(context)
     return render(request, 'mpesa_appp/Checkout.html', context)
 
 def register(request):
@@ -115,17 +114,9 @@ def register(request):
     
 
 def payment(request):
-    if request.method == 'POST':
-        username=  request.user
-        first_name = username.first_name
-        last_name = username.last_name
-        email = username.email
-        amount = request.POST.get('total')
-        phone_number= request.POST.get('phone_number')
-        return HttpResponse(phone_number)
+    return HttpResposponse("payment")
+
   
-    
-    
 def getAccessToken(request):
     consumer_key = 'jZZ1Izq3fr2ZB4jg0Kv6GAXy41G7d4ZG'
     consumer_secret = 'lghIvsY5Fkz7zXl3'
@@ -137,24 +128,25 @@ def getAccessToken(request):
 
     return HttpResponse(validated_mpesa_access_token)
 
-
 # Lipa na mpesa.  c2b
 def lipa_na_mpesa_online(request):
     access_token = MpesaAccessToken.validated_mpesa_access_token
     api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
     headers = {'Authorization': f'Bearer {access_token}', 'Content-Type': 'application/json'}
+
     stk_request = {
         "BusinessShortCode": LipanaMpesa.Business_short_code,# this is the business shortcode
         "Password": LipanaMpesa.decode_password,
         "Timestamp": LipanaMpesa.lipa_time,
         "TransactionType": "CustomerPayBillOnline",
-        "Amount": 1,
-        "PartyA": Checkout.phone_number,  
+        "Amount": 1000,
+        "PartyA": 254792193714,
         "PartyB": LipanaMpesa.Business_short_code,
-        "PhoneNumber": Checkout.phone_number,  # replace with your phone number to get stk push
+        "PhoneNumber":  254792193714,  # replace with your phone number to get stk push
         "CallBackURL": callback_url,
         "AccountReference": "Antony",
         "TransactionDesc": "Testing stk push"
     }
     response = requests.post(api_url, json=stk_request, headers=headers)
     return HttpResponse(response.text)
+
