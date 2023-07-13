@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+{{{% load static %}}}
 <html>
     <head>
         <meta charset="utf-8">
@@ -62,56 +62,22 @@
               </div>
               <div class="col-lg-10">
                 <div class="row">
+                    {% for item in items %}
                     <div class="col-6 col-lg-3 col-sm-6 col-md-3 col-lg-2 col-xxl-2">
                         <div class="card">
                             <div class="card-body">
-                            <img src="">
+                                <img src="{{ item.item_image.url }}">
                             </div>
-      
-                          </div>
-                          <div class="row">
-                              <p>price:</p>
-                              <p> by: </p>
-                          </div>
-                  </div>
-                  <div class="col-6 col-lg-3 col-sm-6 col-md-3 col-lg-2 col-xxl-2">
-                    <div class="card">
-                        <div class="card-body">
-                        <img src="">
                         </div>
-  
-                      </div>
-                      <div class="row">
-                          <p>price:</p>
-                          <p> by: </p>
-                      </div>
-                  </div>
-                  <div class="col-6 col-lg-3 col-sm-6 col-md-3 col-lg-2 col-xxl-2">
-                    <div class="card">
-                      <div class="card-body">
-                      <img src="">
-                      </div>
-
-                    </div>
-                    <div class="row">
-                        <p>price:</p>
-                        <p> by: </p>
-                    </div>
-                  </div>
-                  <div class="col-6 col-lg-3 col-sm-6 col-md-3 col-lg-2 col-xxl-2">
-                    <div class="card">
-                        <div class="card-body">
-                        <img src="">
+                        <div class="row">
+                            <p>Price: {{ item.price }}</p>
+                            <p>By: {{ item.user }}</p>
                         </div>
-  
-                      </div>
-                      <div class="row">
-                          <p>price:</p>
-                          <p> by: </p>
-                      </div>
-                  </div>
+                    </div>
+                    {% endfor %}
                 </div>
-              </div>
+            </div>
+            
             </div>
           </div>
           
