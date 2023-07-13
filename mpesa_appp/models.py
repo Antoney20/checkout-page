@@ -16,6 +16,26 @@ class Registration(AbstractUser):
     
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+class RegisterItem(models.Model):
+    user = models.ForeignKey(Registration, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, blank=False)
+    description = models.TextField(blank=False)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=8, decimal_places=2) 
+    price_was = models.DecimalField(max_digits=8, decimal_places=2)
+    save = models.DecimalField(max_digits=8, decimal_places=2)
+    location =  models.CharField(max_length=50, blank=True)
+    item_image = models.ImageField(upload_to='item/images', blank=False)
+    item_image1 = models.ImageField(upload_to='item/images',blank=True)
+    item_image2 = models.ImageField(upload_to='item/images',blank=True)
+    created_at =  models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name
+    
+    
+    
 
 class Item(models.Model):
     user = models.ForeignKey(Registration, on_delete=models.CASCADE)

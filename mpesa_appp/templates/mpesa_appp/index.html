@@ -48,7 +48,7 @@
             </div>
         </nav>
         <!--body-->
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
               <div class="col-lg-2">
                 <div class="aside">
@@ -63,16 +63,14 @@
               <div class="col-lg-10">
                 <div class="row">
                     {% for item in items %}
-                    <div class="col-6 col-lg-3 col-sm-6 col-md-3 col-lg-2 col-xxl-2">
-                        <div class="card" style="max-height:90">
-                            <div class="card-body">
+                    <div class="col-6 col-lg-3 col-sm-6 col-md-4 col-lg-2 col-xxl-2">
+                        <div class="card mt-auto mb-2">
+                            <div class="card-body"  style="height:180px;">
                                 <img src="{{ item.item_image.url }}" alt="item.name" style="width:80%; height:90%;">
-                                <p> {{item.name}}</p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <p>Price: {{ item.price }}</p>
-                            <p>By: {{ item.user }}</p>
+                            <div class="card-footer">
+                                <p>Price: {{ item.price }} <span class="" style="font-size:10px;float:right;overflow:hidden;" >  By: {{ item.user}}</span></p>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
