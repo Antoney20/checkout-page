@@ -19,7 +19,12 @@ from .models import Registration, Item,Checkout
 callback_url = "https://cd64-196-98-170-98.ngrok-free.app/app/v1/c2b/callback"
 
 def index(request):
-    return render(request, 'mpesa_appp/test.html')
+    items = Item.objects.all()
+    
+    context = {
+        'items': items
+    }
+    return render(request, 'mpesa_appp/index.html',context)
 
 def login_user(request):
     if request.method == 'POST':
@@ -116,6 +121,17 @@ def register(request):
 def payment(request):
     return HttpResposponse("payment")
 
+def payment_details():
+        # Assuming Checkout is the model representing the checkout table
+    checkout_records = Checkout.objects.all()
+        
+    payment_details = []
+    for record in checkout_records:
+        phone_number = record.phone_number
+        amount = record.amount
+        payment_details.append({"phone_number": phone_number, "amount": amount})
+        
+    return payment_details
   
 def getAccessToken(request):
     consumer_key = 'jZZ1Izq3fr2ZB4jg0Kv6GAXy41G7d4ZG'
@@ -139,10 +155,10 @@ def lipa_na_mpesa_online(request):
         "Password": LipanaMpesa.decode_password,
         "Timestamp": LipanaMpesa.lipa_time,
         "TransactionType": "CustomerPayBillOnline",
-        "Amount": 1000,
-        "PartyA": 254792193714,
+        "Amount": payment_details.amount,
+        "PartyA": payment_details.phone_number,
         "PartyB": LipanaMpesa.Business_short_code,
-        "PhoneNumber":  254792193714,  # replace with your phone number to get stk push
+        "PhoneNumber":  payment_details.phone_number,  # replace with your phone number to get stk push
         "CallBackURL": callback_url,
         "AccountReference": "Antony",
         "TransactionDesc": "Testing stk push"

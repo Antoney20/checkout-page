@@ -30,3 +30,4 @@ class LipanaMpesa:
     online_password = base64.b64encode(data_to_encode.encode())
     decode_password = online_password.decode('utf-8')
     
+
