@@ -46,6 +46,41 @@ class Item(models.Model):
  
     def __str__(self):
         return self.name
+    
+class Order(models.Model):
+    customer = models.ForeignKey(Registration, on_delete=models.CASCADE)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    is_complete = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Order : {self.id} - {self.customer.username}"
+    @property
+    def get_cart_total (self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+
+    @property
+    def get_cart_items (self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems])
+        return total
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.id)
+    
+    @property
+    def get_total (self):
+        total = self.item.price * self.quantity
+        return total
+
 
 #checkout model
 class Checkout(models.Model):

@@ -51,6 +51,15 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('login') 
+def cart(request):
+    # Retrieve the cart items for the current authenticated user
+    order_items = OrderItem.objects.filter(user=request.user)
+    
+    context = {
+        'order_items': order_items
+    }
+    
+    return render(request, 'cart.html', context)
 
 @login_required
 def checkout(request):
@@ -133,36 +142,3 @@ def payment_details():
         
     return payment_details
   
-def getAccessToken(request):
-    consumer_key = 'jZZ1Izq3fr2ZB4jg0Kv6GAXy41G7d4ZG'
-    consumer_secret = 'lghIvsY5Fkz7zXl3'
-    api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
-
-    r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
-    mpesa_access_token = json.loads(r.text)
-    validated_mpesa_access_token = mpesa_access_token['access_token']
-
-    return HttpResponse(validated_mpesa_access_token)
-
-# Lipa na mpesa.  c2b
-def lipa_na_mpesa_online(request):
-    access_token = MpesaAccessToken.validated_mpesa_access_token
-    api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-    headers = {'Authorization': f'Bearer {access_token}', 'Content-Type': 'application/json'}
-
-    stk_request = {
-        "BusinessShortCode": LipanaMpesa.Business_short_code,# this is the business shortcode
-        "Password": LipanaMpesa.decode_password,
-        "Timestamp": LipanaMpesa.lipa_time,
-        "TransactionType": "CustomerPayBillOnline",
-        "Amount": payment_details.amount,
-        "PartyA": payment_details.phone_number,
-        "PartyB": LipanaMpesa.Business_short_code,
-        "PhoneNumber":  payment_details.phone_number,  # replace with your phone number to get stk push
-        "CallBackURL": callback_url,
-        "AccountReference": "Antony",
-        "TransactionDesc": "Testing stk push"
-    }
-    response = requests.post(api_url, json=stk_request, headers=headers)
-    return HttpResponse(response.text)
-
