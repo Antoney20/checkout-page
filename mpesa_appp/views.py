@@ -13,7 +13,7 @@ from .backend import LipanaMpesa, MpesaAccessToken
 
 # Create your views here.
 from django.http import HttpResponse
-from .models import Registration, Item,Checkout
+from .models import Registration, Item,Order, Checkout
 
 
 callback_url = "https://cd64-196-98-170-98.ngrok-free.app/app/v1/c2b/callback"
@@ -52,14 +52,15 @@ def logout_user(request):
     logout(request)
     return redirect('login') 
 def cart(request):
-    # Retrieve the cart items for the current authenticated user
-    order_items = OrderItem.objects.filter(user=request.user)
+    user = request.user
+    order_items = Order.objects.filter(username=user)
+    print(order_items)
     
     context = {
-        'order_items': order_items
+        'order_items': order_items,
     }
     
-    return render(request, 'cart.html', context)
+    return render(request, 'mpesa_appp/cart.html', context)
 
 @login_required
 def checkout(request):

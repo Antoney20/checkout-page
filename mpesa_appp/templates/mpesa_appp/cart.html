@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>cart</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+          <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+        <!-- Font Awesome CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="">
+        <style>
+          .profile_image{
+            max-width:100px;
+            backgroud-color:black;
+            max-height:100px;
+            border-radius:30%;
+          }
+            .item-image {
+                width: 50px; 
+                height: 50px; 
+                object-fit: cover; 
+            }
+            
+          .arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .arrow {
+            width: 20px; 
+            height: 20px;
+          }
+          .item-totals {
+            font-weight: bold;
+          }
+        </style>
+    </head>
+    <body>
+      <div class="container">
+        <h4>Cart</h4>
+        <div class="d-flex justify-content-between">
+            <div class="flex-fill">
+              <p>Item</p>
+            </div>
+            <div class="flex-fill">
+                <p>image</p>
+              </div>
+            <div class="flex-fill">
+              <p>Price</p>
+            </div>
+            <div class="flex-fill">
+              <p>Quantity</p>
+            </div>
+            <div class="flex-fill">
+              <p>Totals</p>
+            </div>
+          </div>
+        <hr>
+
+        {% for order_item in order_items %}
+        <div class="d-flex justify-content-between">
+          <div class="flex-fill">
+            <p>{{ order_item.item }}</p>
+          </div>
+          <div class="flex-fill">
+          
+          </div>
+          <div class="flex-fill">
+            <p>{{ order_item.price }}</p>
+          </div>
+          <div class="flex-fill">
+            <p>{{ order_item.quantity }}
+                <div class="col-sm-6 d-flex align-items-center">
+                    <div class="arrow-container">
+                        <img src="{% static 'assets/img/arrow-up.png' %}" alt="increase" name="increase" id="increase" class="arrow">
+                        <img src="{% static 'assets/img/arrow-down.png' %}" alt="decrease" name="decrease" id="decrease" class="arrow">
+                    </div>
+                </div>
+            </p>
+          </div>
+          <div class="flex-fill">
+            <p>{{ order_item.total }}</p>
+          </div>
+        </div>
+        {% endfor %}
+        <br>
+      </div>

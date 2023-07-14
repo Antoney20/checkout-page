@@ -48,13 +48,13 @@ class Item(models.Model):
         return self.name
     
 class Order(models.Model):
-    customer = models.ForeignKey(Registration, on_delete=models.CASCADE)
+    username = models.ForeignKey(Registration, on_delete=models.CASCADE)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"Order : {self.id} - {self.customer.username}"
+        return f"Order : {self.id} - {self.username}"
     @property
     def get_cart_total (self):
         orderitems = self.orderitem_set.all()
