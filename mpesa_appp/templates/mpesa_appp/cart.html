@@ -26,6 +26,7 @@
             }
             
           .arrow-container {
+            
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -42,6 +43,10 @@
     </head>
     <body>
       <div class="container">
+
+        <h2>Total Items: {{ cart_items }}</h2>
+<h2>Cart Total: {{ cart_total }}</h2>
+        
         <h4>Cart</h4>
         <div class="d-flex justify-content-between">
             <div class="flex-fill">
@@ -68,14 +73,15 @@
             <p>{{ order_item.item }}</p>
           </div>
           <div class="flex-fill">
-          
+          null
           </div>
           <div class="flex-fill">
-            <p>{{ order_item.price }}</p>
+            <p>Ksh: {{ order_item.price }}</p>
           </div>
           <div class="flex-fill">
-            <p>{{ order_item.quantity }}
+            <p>
                 <div class="col-sm-6 d-flex align-items-center">
+                  {{ order_item.quantity }}
                     <div class="arrow-container">
                         <img src="{% static 'assets/img/arrow-up.png' %}" alt="increase" name="increase" id="increase" class="arrow">
                         <img src="{% static 'assets/img/arrow-down.png' %}" alt="decrease" name="decrease" id="decrease" class="arrow">
@@ -84,9 +90,11 @@
             </p>
           </div>
           <div class="flex-fill">
-            <p>{{ order_item.total }}</p>
+            <p>Ksh: {{ order_item.get_total }}</p>
           </div>
         </div>
+        <hr>
         {% endfor %}
+       
         <br>
       </div>
