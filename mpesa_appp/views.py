@@ -65,39 +65,25 @@ def cart(request):
         'cart_items': cart_items,
         'cart_total': cart_total
     }
+    print(context)
     return render(request, 'mpesa_appp/cart.html', context)
 
 @login_required
 def checkout(request):
     user = request.user
-    # Access the user's fields
-    first_name = user.first_name
-    last_name = user.last_name
-    email = user.email
-    phone_number = user.phone_number
-    profile_image = user.profile_image
-    items = Item.objects.filter(user=user)
-    
-    total = 0
+    orders = Order.objects.filter(username=user)
+    order_items = OrderItem.objects.filter(order__in=orders)
+    cart_items = sum(order.get_cart_items() for order in orders)
+    cart_total = sum(order.get_cart_total() for order in orders)
 
-    for item in items:
-        print(item.price)
-        print(item.quantity)
-        total += item.price * item.quantity
-        total_cart = total
-        
-
-    #pass items to checkout
+  
     context = {
-        
-        'first_name': first_name,
-        'last_name': last_name,
-        'email': email,
-        'phone_number': phone_number,
-        'profile_image': profile_image,
-        'items': items,
-        'amount':total_cart  
+        'order_items': order_items,
+        'orders' : orders,
+        'cart_items': cart_items,
+        'cart_total': cart_total
     }
+    print(context)
     return render(request, 'mpesa_appp/Checkout.html', context)
 
 def register(request):

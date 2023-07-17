@@ -57,16 +57,15 @@
             </tr>
           </thead>
             <tbody id="item-container">
-              {% for item in items %}
+              {% for order_item in order_items %}
               <tr class="item-row mb-2">
                   <td name="item_name">
-                      <img src="{{ MEDIA_URL }}{{ item.item_image.url }}" alt="{{ item.name }}"class="item-image">
-                      {{ item.name }}
+                      {{ order_item.item }}
                   </td>
                   <td >
                       <div class="row">
                           <div class="col-sm-6 mt-1">
-                              <span type="number" name="item_quantity" id="item_quantity">{{ item.quantity }}</span>
+                              <span type="number" name="item_quantity" id="item_quantity"> {{ order_item.quantity }}</span>
                           </div>
                           <div class="col-sm-6 d-flex align-items-center">
                               <div class="arrow-container">
@@ -77,10 +76,10 @@
                       </div>
                   </td>
                   <td>
-                      <span class="col-sm-6 mt-2" name="item_price" id="item_price">{{ item.price }}</span>
+                      <span class="col-sm-6 mt-2" name="item_price" id="item_price"> {{ order_item.price }}</span>
                   </td>
                   <td>
-                      <span class="item-totals" id="item_totals">{{ item.price }}</span>
+                      <span class="item-totals" id="item_totals">{{ order_item.get_total }}</span>
                   </td>
                   <td>
                       <button class="btn btn-danger remove" name="item_remove" id="remove">Remove</button>
@@ -91,10 +90,8 @@
         </table>
                
         <hr>
-        <div class="row">
-          <div class="col-6">Total:</div>
-          <div class="col-6" name="Total" id="toovvtal">{{amount}}</div>
-        </div>
+        <h2>Total Items: {{ cart_items }}</h2>
+        <h2>Cart Total: {{ cart_total }}</h2>
         <br>
       </div>
       <div class="container">
