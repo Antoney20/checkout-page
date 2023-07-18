@@ -86,8 +86,37 @@ def checkout(request):
     return render(request, 'mpesa_appp/Checkout.html', context)
 
 
+
 def update_item(request):
-    return JsonResponse('item was added ', safe=False)
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    user = request.user
+    product = Item.objects.get(id=productId)
+        # Retrieve the active (incomplete) order for the user
+    order, created = Order.objects.filter(username=user, is_complete=False)
+    # Retrieve or create the order item for the product and order
+    
+    orderItem, created = OrderItem.objects.get_or_create(order=order, item=product)
+    
+    print(orderItem)
+    
+    if action == 'add':
+        orderItem.quantity += 1
+    elif action == 'remove':
+        orderItem.quantity -= 1
+    
+    orderItem.save()
+    
+    if orderItem.quantity <= 0:
+        orderItem.delete()
+    
+    print('Product:', product)
+    print('ProductId:', productId)
+    print('Action:', action)
+    
+    return JsonResponse('Item was added/removed.', safe=False)
+
 
 def register(request):
     if request.method == 'POST':
