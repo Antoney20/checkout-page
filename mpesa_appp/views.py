@@ -20,7 +20,6 @@ callback_url = "https://cd64-196-98-170-98.ngrok-free.app/app/v1/c2b/callback"
 
 def index(request):
     items = Item.objects.all()
-    
     context = {
         'items': items
     }
@@ -85,6 +84,10 @@ def checkout(request):
     }
     print(context)
     return render(request, 'mpesa_appp/Checkout.html', context)
+
+
+def update_item(request):
+    return JsonResponse('item was added ', safe=False)
 
 def register(request):
     if request.method == 'POST':
