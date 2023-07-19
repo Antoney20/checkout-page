@@ -55,6 +55,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order : {self.id} - {self.username}"
+    
 
     
     def get_cart_total(self):

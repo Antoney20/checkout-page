@@ -37,6 +37,7 @@ for (let i = 0; i < updateCartButtons.length; i++) {
       .then(response => {return response.json()})
       .then(data => {
         console.log('Response:', data);
+        location.reload()
         // Handle the response data as needed
       })
       .catch(error => {
@@ -44,4 +45,4 @@ for (let i = 0; i < updateCartButtons.length; i++) {
         // Handle any errors that occur during the request
       });
   }
-  
+

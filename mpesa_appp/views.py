@@ -9,14 +9,12 @@ import json
 import requests
 from django.http import HttpResponse, JsonResponse
 from requests.auth import HTTPBasicAuth
-from .backend import LipanaMpesa, MpesaAccessToken
+#from .backend import LipanaMpesa, MpesaAccessToken
 
 # Create your views here.
 from django.http import HttpResponse
 from .models import Registration, Item,Order,OrderItem, Checkout
 
-
-callback_url = "https://cd64-196-98-170-98.ngrok-free.app/app/v1/c2b/callback"
 
 def index(request):
     items = Item.objects.all()
@@ -93,23 +91,29 @@ def update_item(request):
     action = data['action']
     user = request.user
     product = Item.objects.get(id=productId)
+    print(product.price)
         # Retrieve the active (incomplete) order for the user
-    order, created = Order.objects.filter(username=user, is_complete=False)
-    # Retrieve or create the order item for the product and order
-    
-    orderItem, created = OrderItem.objects.get_or_create(order=order, item=product)
-    
-    print(orderItem)
+    try:
+        orderItem = OrderItem.objects.get(order__username=user, item=product)
+    except OrderItem.DoesNotExist:
+        # Order item does not exist, create a new one
+        orderItem = OrderItem(order=Order.objects.create(username=user, is_complete=False), item=product, price=product.price, quantity=product.quantity)
     
     if action == 'add':
         orderItem.quantity += 1
     elif action == 'remove':
         orderItem.quantity -= 1
     
+    # Ensure the quantity doesn't go below 0
+    orderItem.quantity = max(0, orderItem.quantity)
+
+    # Save the order item
     orderItem.save()
-    
-    if orderItem.quantity <= 0:
+
+    # If the quantity is 0, remove the item from the cart
+    if orderItem.quantity == 0:
         orderItem.delete()
+
     
     print('Product:', product)
     print('ProductId:', productId)
@@ -144,7 +148,7 @@ def register(request):
         )
 
         registration.save() 
-        return render(request, 'mpesa_appp/Checkout.html')
+        return render(request, 'mpesa_appp/index.html')
 
    
     else:
@@ -154,15 +158,3 @@ def register(request):
 def payment(request):
     return HttpResposponse("payment")
 
-def payment_details():
-        # Assuming Checkout is the model representing the checkout table
-    checkout_records = Checkout.objects.all()
-        
-    payment_details = []
-    for record in checkout_records:
-        phone_number = record.phone_number
-        amount = record.amount
-        payment_details.append({"phone_number": phone_number, "amount": amount})
-        
-    return payment_details
-  
