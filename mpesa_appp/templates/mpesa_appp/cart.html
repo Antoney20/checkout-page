@@ -62,61 +62,48 @@
     </head>
     <body>
       <div class="container">
-
-        <h2>Total Items: {{ cart_items }}</h2>
-<h2>Cart Total: {{ cart_total }}</h2>
         
         <h4>Cart</h4>
-        <div class="d-flex justify-content-between">
-            <div class="flex-fill">
-              <p>Item</p>
-            </div>
-            <div class="flex-fill">
-                <p>image</p>
-              </div>
-            <div class="flex-fill">
-              <p>Price</p>
-            </div>
-            <div class="flex-fill">
-              <p>Quantity</p>
-            </div>
-            <div class="flex-fill">
-              <p>Totals</p>
-            </div>
-          </div>
-        <hr>
+        <div class="container">
+          <h2>Total Items: {{ cart_items }}</h2>
+          <h2>Cart Total: {{ cart_total }}</h2>
+        
+          <h4>Cart</h4>
+          <hr>
+        
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in order_items %}
+              <tr>
+                <td>{{ item.item }}</td>
+                <td><img src="{{ item.item.item_image.url }}" alt="{{ item.item.name }}" class="item-image"></td>
+                <td>Ksh: {{ item.price }}</td>
+                <td>
+                  <div class="col-sm-6 d-flex align-items-center">
+                    {{ item.quantity }}
+                    <div class="arrow-container">
+                      <img src="{% static 'assets/img/arrow-up.png' %}" data-product="{{ item.id }}" data-action="add" alt="increase" name="increase" class="arrow update-cart">
+                      <img src="{% static 'assets/img/arrow-down.png' %}" data-product="{{ item.id }}" data-action="remove" alt="decrease" name="decrease" class="arrow update-cart">
+                    </div>
+                  </div>
+                </td>
+                <td>Ksh: {{ item.get_total }}</td>
+              </tr>
 
-        {% for item in order_items %}
-        <div class="d-flex justify-content-between">
-          <div class="flex-fill">
-            <p>{{ item.item }}</p>
-          </div>
-          <div class="flex-fill">
-            <img src="{{ item.item_image.url }}" alt="item.name" style="width:80%; height:90%;">
-          </div>
-          <div class="flex-fill">
-            <p>Ksh: {{ item.price }}</p>
-          </div>
-          <div class="flex-fill">
-            <p>
-                <div class="col-sm-6 d-flex align-items-center">
-                  {{ item.quantity }}
-                  <div class="arrow-container">
-                    <img src="{% static 'assets/img/arrow-up.png' %}" data-product ="{{item.id}}" data-action="add" alt="increase" name="increase" class="arrow update-cart">
-                    <img src="{% static 'assets/img/arrow-down.png' %}"data-product ="{{item.id}}" data-action="remove" alt="decrease" name="decrease" class="arrow update-cart">
-                </div>
-                </div>
-            </p>
-          </div>
-          <div class="flex-fill">
-            <p>Ksh: {{ item.get_total }}</p>
-          </div>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-        <hr>
-        {% endfor %}
-       
-        <br>
-      </div>
+        
 
       <a href="{% url 'checkout' %}"> proceed to checkout. </a>
 
