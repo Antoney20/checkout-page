@@ -14,7 +14,19 @@ from requests.auth import HTTPBasicAuth
 # Create your views here.
 from django.http import HttpResponse
 from .models import Registration, Item,Order,OrderItem, Checkout
+#email.
+from django.core.mail import EmailMessage
 
+def send_bulk_emails(request):
+    users = Registration.objects.all()  
+    subject = 'Antony bulk email test'  
+    message = 'Email test'  
+
+    for user in users:
+        email = EmailMessage(subject, message, to=[user.email])
+        email.send()
+
+    return HttpResponse('successful')
 
 def index(request):
     items = Item.objects.all()
